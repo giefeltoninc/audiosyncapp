@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo Resolving dependencies...
+      - mvn dependency:resolve
+  build:
+    commands:
+      - echo Building the project...
+      - mvn clean package
+  post_build:
+    commands:
+      - echo Build completed successfully!
+      - echo "Build ID is $CODEBUILD_BUILD_ID"
+
+artifacts:
+  files:
+    - target/*.jar
+  discard-paths: yes
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
